@@ -3,7 +3,7 @@ import 'package:weather_app/src/domain/entities/user.dart';
 import 'package:weather_app/src/domain/repositories/users_repository.dart';
 
 class MockUsersRepository extends UsersRepository {
-  List<User> users = <User>[];
+  late List<User> users;
 
   //singleton
   static final MockUsersRepository _instance = MockUsersRepository._internal();
@@ -19,7 +19,8 @@ class MockUsersRepository extends UsersRepository {
   factory MockUsersRepository() => _instance;
 
   @override
-  Future<User> getUser(String name) async {
-    return users.firstWhere((user) => user.name == name );
+  Future<User> getUser(String user) async {
+    print(users);
+    return users.firstWhere((u) => u.user == user);
   }
 }

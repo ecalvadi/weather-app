@@ -11,14 +11,15 @@ class GetUserUseCase
   GetUserUseCase(this.usersRepository);
 
   @override
-
   @override
   Future<Stream<GetUserUseCaseResponse?>> buildUseCaseStream(
     GetUserUseCaseParams? params,
   ) async {
     final controller = StreamController<GetUserUseCaseResponse>();
+    print(params!.user);
     try {
-      final user = await usersRepository.getUser(params!.name);
+      final User user = await usersRepository.getUser(params.user);
+      print(user);
       controller.add(GetUserUseCaseResponse(user));
       logger.finest('GetUserUseCase successful.');
       controller.close();
@@ -31,8 +32,8 @@ class GetUserUseCase
 }
 
 class GetUserUseCaseParams {
-  final String name;
-  GetUserUseCaseParams(this.name);
+  final String user;
+  GetUserUseCaseParams(this.user);
 }
 
 class GetUserUseCaseResponse {

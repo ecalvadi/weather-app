@@ -13,8 +13,8 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Center(
-        child: Text('Hello'),
+      home: LoginPage(
+        title: 'Welcome',
       ),
     );
   }
