@@ -8,6 +8,11 @@ import 'package:weather_app/src/domain/entities/user.dart';
 class LoginController extends Controller {
   late int _counter;
   User? _user;
+  late String _username;
+  late String _userpass;
+
+  void set username(String username) => _username = username;
+  void set password(String password) => _userpass = password;
 
   int get counter => _counter;
   User? get user => _user;

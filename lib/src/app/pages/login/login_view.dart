@@ -5,11 +5,12 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 import 'package:weather_app/src/app/pages/login/login_controller.dart';
 import 'package:weather_app/src/data/repositories/mock_users_repository.dart';
+import 'package:weather_app/src/app/pages/home/home_view.dart';
 
 class LoginPage extends View {
-  LoginPage({Key? key, required this.title}) : super(key: key);
+  static String route = '/login/';
 
-  final String title;
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -21,9 +22,6 @@ class _LoginPageState extends ViewState<LoginPage, LoginController> {
   @override
   Widget get view {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Scaffold(
         key:
             globalKey, // built in global key for the ViewState for easy access in the controller
@@ -33,29 +31,29 @@ class _LoginPageState extends ViewState<LoginPage, LoginController> {
             children: <Widget>[
               ControlledWidgetBuilder<LoginController>(
                 builder: (context, controller) {
-                  return Text(
-                    'Button pressed ${controller.counter} times.',
-                  );
-                },
-              ),
-              Text(
-                'The current user is',
-              ),
-              ControlledWidgetBuilder<LoginController>(
-                builder: (context, controller) {
-                  return Text(
-                    controller.user == null ? '' : '${controller.user}',
-                    style: Theme.of(context).textTheme.headline4,
+                  return Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'User',
+                      ),
+                      onChanged: (String value) => controller.username = value,
+                    ),
                   );
                 },
               ),
               ControlledWidgetBuilder<LoginController>(
                 builder: (context, controller) {
-                  return ElevatedButton(
-                    onPressed: controller.getUser,
-                    child: Text(
-                      'Get User',
-                      style: TextStyle(color: Colors.white),
+                  return Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                      onChanged: (String value) => controller.password = value,
                     ),
                   );
                 },
@@ -63,9 +61,11 @@ class _LoginPageState extends ViewState<LoginPage, LoginController> {
               ControlledWidgetBuilder<LoginController>(
                 builder: (context, controller) {
                   return ElevatedButton(
-                    onPressed: controller.getUserwithError,
+                    onPressed: () =>
+                        Navigator.pushReplacementNamed(context, HomePage.route),
+                    //controller.getUserwithError,
                     child: Text(
-                      'Get User Error',
+                      'Login',
                       style: TextStyle(color: Colors.white),
                     ),
                   );
@@ -74,15 +74,6 @@ class _LoginPageState extends ViewState<LoginPage, LoginController> {
             ],
           ),
         ),
-      ),
-      floatingActionButton: ControlledWidgetBuilder<LoginController>(
-        builder: (context, controller) {
-          return FloatingActionButton(
-            onPressed: () => controller.buttonPressed(),
-            tooltip: 'Increment',
-            child: Icon(Icons.add),
-          );
-        },
       ),
     );
   }
