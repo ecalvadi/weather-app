@@ -14,4 +14,8 @@ class Coord {
 
   @override
   String toString() => 'lat: $lat, lon: $lon';
+
+  factory Coord.fromJson(Map<String, dynamic> json) => _$CoordFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CoordToJson(this);
 }
