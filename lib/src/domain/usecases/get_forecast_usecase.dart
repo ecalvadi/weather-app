@@ -19,7 +19,7 @@ class GetForecastUseCase
     try {
       //TODO: pass city in the future
       final Forecast forecast = await forecastRepository.getForecast();
-      print('The city is: ${forecast.name}');
+      print('The Forecast id is: ${forecast.id}');
       controller.add(GetForecastUseCaseResponse(forecast));
       logger.finest('GetForecastUseCase successful.');
       controller.close();

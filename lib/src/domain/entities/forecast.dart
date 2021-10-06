@@ -19,7 +19,7 @@ class Forecast {
   final Wind? wind;
   final Cloud? clouds;
   final int? dt;
-  final WeatherSys? sys;
+  //final WeatherSys? sys;
   final int? timezone;
   final int id;
   final String? name;
@@ -34,7 +34,7 @@ class Forecast {
     this.wind,
     this.clouds,
     this.dt,
-    this.sys,
+    //this.sys,
     this.timezone,
     required this.id,
     this.name,

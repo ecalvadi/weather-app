@@ -15,9 +15,12 @@ class DioWeatherRepository extends ForecastRepository {
     try {
       var response = await Dio().get(
           "http://api.openweathermap.org/data/2.5/weather?q=Temuco,cl&APPID=b5245cd9e0962e3e345f74872968d116");
+      print(response.statusCode);
       if (response.statusCode == 200) {
-        print(response.data);
-        forecast = Forecast.fromJson(json.decode(response.data));
+        //print(response.data);
+        //Map<String, dynamic> data = json.decode(response.data);
+        //print(data);
+        forecast = Forecast.fromJson(response.data);
       } else {
         forecast = Forecast(id: 0);
       }
