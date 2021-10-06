@@ -24,7 +24,7 @@ class _WeatherPageState extends ViewState<WeatherPage, WeatherController> {
     return Scaffold(
       key: globalKey,
       appBar: AppBar(
-        title: Text("Weather for Temuco"),
+        title: const Text("Weather for Temuco"),
       ),
       body: Center(
         child: Column(
@@ -37,7 +37,7 @@ class _WeatherPageState extends ViewState<WeatherPage, WeatherController> {
                   : controller.forecast!.weather!.first.description;
               return Card(
                 child: ListTile(
-                  title: Text(
+                  title: const Text(
                     'Forecast Temuco',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -51,7 +51,7 @@ class _WeatherPageState extends ViewState<WeatherPage, WeatherController> {
               builder: (context, controller) {
                 return ElevatedButton(
                   onPressed: () => controller.getForecast(),
-                  child: Text(
+                  child: const Text(
                     'Get Forecast for Temuco',
                     style: TextStyle(color: Colors.white),
                   ),

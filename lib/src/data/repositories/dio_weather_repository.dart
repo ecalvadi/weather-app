@@ -6,6 +6,7 @@ import 'package:weather_app/src/domain/entities/forecast.dart';
 import 'package:weather_app/src/domain/repositories/forecast_repository.dart';
 //http://api.openweathermap.org/data/2.5/weather?q=Temuco,cl&APPID=b5245cd9e0962e3e345f74872968d116
 //class DioWeatherRepository
+//Instalar Hive
 
 class DioWeatherRepository extends ForecastRepository {
   @override
@@ -17,9 +18,6 @@ class DioWeatherRepository extends ForecastRepository {
           "http://api.openweathermap.org/data/2.5/weather?q=Temuco,cl&APPID=b5245cd9e0962e3e345f74872968d116");
       print(response.statusCode);
       if (response.statusCode == 200) {
-        //print(response.data);
-        //Map<String, dynamic> data = json.decode(response.data);
-        //print(data);
         forecast = Forecast.fromJson(response.data);
       } else {
         forecast = Forecast(id: 0);
