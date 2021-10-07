@@ -4,12 +4,13 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 import 'package:weather_app/src/app/pages/login/login_presenter.dart';
 import 'package:weather_app/src/domain/entities/user.dart';
+import 'package:weather_app/src/app/pages/home/home_view.dart';
 
 class LoginController extends Controller {
   late int _counter;
   User? _user;
-  late String _username;
-  late String _userpass;
+  String? _username;
+  String? _userpass;
 
   void set username(String username) => _username = username;
   void set password(String password) => _userpass = password;
@@ -29,7 +30,12 @@ class LoginController extends Controller {
     loginPresenter.getUserOnNext = (User user) {
       print(user);
       _user = user;
-      refreshUI();
+      if (_user != null) {
+        if (_user!.user == _username! && _user!.pass == _userpass!) {
+          Navigator.pushReplacementNamed(getContext(), HomePage.route);
+        }
+      }
+      //refreshUI();
     };
 
     loginPresenter.getUserOnComplete = () => print('User Retrieved');
@@ -43,7 +49,12 @@ class LoginController extends Controller {
     };
   }
 
-  void getUser() => loginPresenter.getUser('user');
+  void getUser(BuildContext context) {
+    if (_username != null) {
+      loginPresenter.getUser(_username!);
+    }
+  }
+
   void getUserwithError() => loginPresenter.getUser('test-asdasd');
 
   void buttonPressed() {

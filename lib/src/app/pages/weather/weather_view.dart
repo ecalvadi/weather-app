@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
@@ -30,32 +31,81 @@ class _WeatherPageState extends ViewState<WeatherPage, WeatherController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            const SizedBox(height: 20.0),
+            const Text(
+              'Get Weather Forecast from a Location',
+              style: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20.0),
             ControlledWidgetBuilder<WeatherController>(
-                builder: (context, controller) {
-              String description = controller.forecast == null
-                  ? ''
-                  : controller.forecast!.weather!.first.description;
-              return Card(
-                child: ListTile(
-                  title: const Text(
-                    'Forecast Temuco',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+              builder: (context, controller) {
+                return Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(
+                          Icons.location_city,
+                          color: Colors.red,
+                        ),
+                        labelText: 'City',
+                        hintText:
+                            'Write the city of interest, Example: Temuco'),
+                    onChanged: (String value) => controller.city = value,
                   ),
-                  subtitle: Text('Description: $description\n'),
-                ),
-              );
-            }),
+                );
+              },
+            ),
             ControlledWidgetBuilder<WeatherController>(
               builder: (context, controller) {
                 return ElevatedButton(
                   onPressed: () => controller.getForecast(),
                   child: const Text(
-                    'Get Forecast for Temuco',
+                    'Get Weather Forecast',
                     style: TextStyle(color: Colors.white),
                   ),
                 );
+              },
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            ControlledWidgetBuilder<WeatherController>(
+              builder: (context, controller) {
+                String description = '';
+                String mainTitle = '';
+                double temp = 0.0;
+                double windSpeed = 0.0;
+                if (controller.forecast != null) {
+                  if (controller.forecast!.id != 0) {
+                    description =
+                        controller.forecast!.weather!.first.description;
+                    mainTitle = controller.forecast!.weather!.first.main;
+                    temp = controller.forecast!.main!.temp;
+                    windSpeed = controller.forecast!.wind!.speed;
+                  }
+                }
+
+                return controller.city == ''
+                    ? const SizedBox()
+                    : Card(
+                        child: ListTile(
+                          title: Text(
+                            'Forecast ${controller.city}: ${mainTitle}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Description: $description\n' +
+                                'Temperature: ${(temp - 273.15).toStringAsFixed(2)} °C' +
+                                '\nWind: ${(windSpeed * 2.237).toStringAsFixed(2)} miles/hour',
+                          ),
+                        ),
+                      ); //controller.forecast!.weather!.first.description;
               },
             ),
           ],

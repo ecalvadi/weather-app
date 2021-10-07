@@ -1,10 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:hive/hive.dart';
 
 part 'coord.g.dart';
 
+@HiveType(typeId: 9)
 @JsonSerializable()
 class Coord {
+  @HiveField(0)
   final double lon;
+  @HiveField(1)
   final double lat;
 
   Coord({

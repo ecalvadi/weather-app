@@ -1,12 +1,18 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'weather.g.dart';
 
+@HiveType(typeId: 2)
 @JsonSerializable()
 class Weather {
+  @HiveField(0)
   final int id;
+  @HiveField(2)
   final String main;
+  @HiveField(3)
   final String description;
+  @HiveField(4)
   final String icon;
 
   Weather({

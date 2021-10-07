@@ -6,10 +6,12 @@ import 'package:weather_app/src/app/pages/weather/weather_presenter.dart';
 import 'package:weather_app/src/domain/entities/forecast.dart';
 
 class WeatherController extends Controller {
-  static String city = 'Temuco';
+  String _city = '';
   Forecast? _forecast;
 
   Forecast? get forecast => _forecast;
+  String get city => _city;
+  void set city(String cityName) => _city = cityName;
 
   final WeatherPresenter weatherPresenter;
 
@@ -22,7 +24,19 @@ class WeatherController extends Controller {
     weatherPresenter.getForecastOnNext = (Forecast forecast) {
       print(forecast.id);
       _forecast = forecast;
+      if (forecast.id != 0) weatherPresenter.saveForecast(forecast);
       refreshUI();
+    };
+
+    weatherPresenter.saveForecastOnNext = (bool forecast) {
+      if (forecast) {
+        ScaffoldMessenger.of(getContext()).showSnackBar(
+          SnackBar(
+            content: Text('The ${_city} has been saved correctly'),
+          ),
+        );
+        refreshUI();
+      }
     };
 
     weatherPresenter.getForecastOnComplete = () {
@@ -30,20 +44,22 @@ class WeatherController extends Controller {
       refreshUI();
     };
 
-    weatherPresenter.getForecastOnError = (e) {
-      print('Could not retrieve forecast.');
+    weatherPresenter.saveForecastOnComplete =
+        () => print('Forecast saved correctly.');
+
+    weatherPresenter.saveForecastOnError = (e) {
+      print('Could not save forecast.');
       ScaffoldMessenger.of(getContext()).showSnackBar(
         SnackBar(
           content: Text(e.message),
         ),
       );
-      _forecast = null;
       refreshUI();
     };
   }
 
   void getForecast() {
-    weatherPresenter.getForecast(city);
+    weatherPresenter.getForecast(_city);
     refreshUI();
   }
 

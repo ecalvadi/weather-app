@@ -5,7 +5,6 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 import 'package:weather_app/src/app/pages/login/login_controller.dart';
 import 'package:weather_app/src/data/repositories/mock_users_repository.dart';
-import 'package:weather_app/src/app/pages/home/home_view.dart';
 
 class LoginPage extends View {
   static String route = '/login/';
@@ -61,8 +60,10 @@ class _LoginPageState extends ViewState<LoginPage, LoginController> {
               ControlledWidgetBuilder<LoginController>(
                 builder: (context, controller) {
                   return ElevatedButton(
-                    onPressed: () =>
-                        Navigator.pushReplacementNamed(context, HomePage.route),
+                    onPressed: () {
+                      controller.getUser(context);
+                      //Navigator.pushReplacementNamed(context, HomePage.route),
+                    },
                     //controller.getUserwithError,
                     child: Text(
                       'Login',
