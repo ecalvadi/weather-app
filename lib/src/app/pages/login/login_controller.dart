@@ -33,17 +33,21 @@ class LoginController extends Controller {
       if (_user != null) {
         if (_user!.user == _username! && _user!.pass == _userpass!) {
           Navigator.pushReplacementNamed(getContext(), HomePage.route);
+        } else {
+          print('bad pass');
+          ScaffoldMessenger.of(getContext())
+              .showSnackBar(SnackBar(content: Text('Incorrect Password')));
         }
       }
-      //refreshUI();
+      refreshUI();
     };
 
     loginPresenter.getUserOnComplete = () => print('User Retrieved');
 
     loginPresenter.getUserOnError = (e) {
       print('Could not retrieve user.');
-      ScaffoldMessenger.of(getContext())
-          .showSnackBar(SnackBar(content: Text(e.message)));
+      ScaffoldMessenger.of(getContext()).showSnackBar(
+          SnackBar(content: Text('The User "${_username}" doesnt exist')));
       _user = null;
       refreshUI();
     };

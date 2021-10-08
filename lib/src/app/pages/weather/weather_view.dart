@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -33,11 +34,17 @@ class _WeatherPageState extends ViewState<WeatherPage, WeatherController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 20.0),
-            const Text(
-              'Get Weather Forecast from a Location',
-              style: TextStyle(
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                'Get Weather Forecast from a Location',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 36.0,
+                  fontFamily: 'Open Sans',
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             const SizedBox(height: 20.0),
@@ -60,27 +67,76 @@ class _WeatherPageState extends ViewState<WeatherPage, WeatherController> {
                 );
               },
             ),
-            ControlledWidgetBuilder<WeatherController>(
-              builder: (context, controller) {
-                return ElevatedButton(
-                  onPressed: () => controller.getForecast(),
-                  child: const Text(
-                    'Get Weather Forecast',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                );
-              },
-            ),
-            ControlledWidgetBuilder<WeatherController>(
-              builder: (context, controller) {
-                return ElevatedButton(
-                  onPressed: () => controller.goHistory(),
-                  child: const Text(
-                    'History Page',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                );
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                ControlledWidgetBuilder<WeatherController>(
+                  builder: (context, controller) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith(
+                            (states) => Colors.blueGrey[300]),
+                        elevation:
+                            MaterialStateProperty.resolveWith((states) => 5.0),
+                        padding: MaterialStateProperty.resolveWith(
+                            (states) => const EdgeInsets.all(15.0)),
+                        shape: MaterialStateProperty.resolveWith(
+                          (states) => RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+                        ),
+                      ),
+                      onPressed: () => controller.getForecast(),
+                      child: Row(
+                        children: <Widget>[
+                          const Text(
+                            'Get Weather Forecast',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 10.0),
+                          Icon(Icons.ac_unit),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(width: 14.0),
+                ControlledWidgetBuilder<WeatherController>(
+                  builder: (context, controller) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith(
+                            (states) => Colors.amber[300]),
+                        elevation:
+                            MaterialStateProperty.resolveWith((states) => 5.0),
+                        padding: MaterialStateProperty.resolveWith(
+                            (states) => const EdgeInsets.all(15.0)),
+                        shape: MaterialStateProperty.resolveWith(
+                          (states) => RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+                        ),
+                      ),
+                      onPressed: () => controller.goHistory(),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'History Page',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 10.0),
+                          Icon(Icons.history, color: Colors.black),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(width: 14.0),
+              ],
             ),
             const SizedBox(
               height: 20.0,
@@ -107,26 +163,36 @@ class _WeatherPageState extends ViewState<WeatherPage, WeatherController> {
                 return controller.city == ''
                     ? const SizedBox()
                     : Card(
-                        child: ListTile(
-                          leading: CachedNetworkImage(
-                            imageUrl: img != ''
-                                ? "http://openweathermap.org/img/wn/${img}@2x.png"
-                                : 'http://openweathermap.org/img/wn/01d@2x.png',
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                          title: Text(
-                            'Forecast ${controller.city}: ${mainTitle}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(
-                            'Description: $description\n' +
-                                'Temperature: ${(temp - 273.15).toStringAsFixed(2)} °C' +
-                                '\nWind: ${(windSpeed * 2.237).toStringAsFixed(2)} miles/hour',
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'Forecast ${controller.city}: ${mainTitle}',
+                                style: const TextStyle(
+                                  fontSize: 26.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  CachedNetworkImage(
+                                    imageUrl: img != ''
+                                        ? "http://openweathermap.org/img/wn/${img}@2x.png"
+                                        : 'http://openweathermap.org/img/wn/01d@2x.png',
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                  Text(
+                                    'Description: $description\n' +
+                                        'Temperature: ${(temp - 273.15).toStringAsFixed(2)} °C' +
+                                        '\nWind: ${(windSpeed * 2.237).toStringAsFixed(2)} miles/hour',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
                       ); //controller.forecast!.weather!.first.description;
