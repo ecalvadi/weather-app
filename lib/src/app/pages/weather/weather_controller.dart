@@ -4,6 +4,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 import 'package:weather_app/src/app/pages/weather/weather_presenter.dart';
 import 'package:weather_app/src/domain/entities/forecast.dart';
+import 'package:weather_app/src/app/pages/weather/history/history_view.dart';
 
 class WeatherController extends Controller {
   String _city = '';
@@ -61,6 +62,10 @@ class WeatherController extends Controller {
   void getForecast() {
     weatherPresenter.getForecast(_city);
     refreshUI();
+  }
+
+  void goHistory() {
+    Navigator.of(getContext()).pushNamed(HistoryPage.route);
   }
 
   @override

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:weather_app/src/app.dart';
 import 'package:weather_app/src/domain/entities/cloud.dart';
